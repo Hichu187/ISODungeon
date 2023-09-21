@@ -6,7 +6,8 @@ public class _PlayerMovement : MonoBehaviour
 {
     private Rigidbody _rb;
     private Animator _anim;
-    private CharacterController _controller;
+
+    public PlayerState state;
     [SerializeField] private float _speed = 5;
 
     [Header("Dash")]
@@ -17,30 +18,32 @@ public class _PlayerMovement : MonoBehaviour
     float turnSmoothVelocity;
     public Vector3 moveDir;
     private Vector3 _input;
-
+    
     private void Start()
     {
         _rb = this.GetComponent<Rigidbody>();
         _anim = this.GetComponent<Animator>();
-        _controller = this.GetComponent<CharacterController>();
     }
     private void Update()
     {
         GatherInput();
         Look();
-
+        
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            Dash();
+        }
+        if (Input.GetMouseButton(0))
+        {
+            state = PlayerState.Attacking;
+        }
     }
 
     private void FixedUpdate()
     {
         Move();
-        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
-        {
-            Dash();
-        }
-        
+        ChangeAnimation();
     }
-
     private void GatherInput()
     {
         _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -51,11 +54,11 @@ public class _PlayerMovement : MonoBehaviour
     {
         if (_input == Vector3.zero)
         {
-            _anim.CrossFade("Idle", 0.1f);
+            state = PlayerState.Idle;
             return;
         }else
         {
-            //_anim.CrossFade("Running_A", 0f);
+            state = PlayerState.Running;
         }
 
         var rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
@@ -69,8 +72,8 @@ public class _PlayerMovement : MonoBehaviour
     }
     void Dash()
     {
-        _anim.CrossFade("Dash", 0);
         canDash = false;
+        state = PlayerState.Dashing;
         _rb.velocity = transform.forward * dashSpeed;
         Invoke("resetDash", dashCooldown);
     }
@@ -78,7 +81,26 @@ public class _PlayerMovement : MonoBehaviour
     {
         _rb.velocity = Vector3.zero;
         canDash = true;
-        _anim.CrossFade("Idle", 0.1f);
+        state = PlayerState.Idle;
+    }
+
+    void ChangeAnimation()
+    {
+        switch (state)
+        {
+            case PlayerState.Idle:
+                _anim.CrossFade("Idle", 0.1f);
+                break;
+            case PlayerState.Running:
+                _anim.CrossFade("Running_A", 0f);
+                break;
+            case PlayerState.Dashing:
+                _anim.CrossFade("Dash", 0);
+                break;
+            case PlayerState.Attacking:
+                _anim.CrossFade("Attack", 0);
+                break;
+        }
     }
 }
 
