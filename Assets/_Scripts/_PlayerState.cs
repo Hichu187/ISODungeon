@@ -2,27 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class _PlayerMovement : MonoBehaviour
+public class _PlayerState : MonoBehaviour
 {
     private Rigidbody _rb;
     private Animator _anim;
 
     public PlayerState state;
+
+    public GameObject target;
     [SerializeField] private float _speed = 5;
 
-    [Header("Dash")]
+    [Header("====== DASH ======")]
     [SerializeField] bool canDash = true;
     [SerializeField] private float dashCooldown = 0.1f;
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float _turnSpeed = 360;
-    float turnSmoothVelocity;
-    public Vector3 moveDir;
     private Vector3 _input;
-    
+    private int animationStateHash;
     private void Start()
     {
         _rb = this.GetComponent<Rigidbody>();
         _anim = this.GetComponent<Animator>();
+        _speed = this.GetComponent<CharacterData>().movementSpeed;
     }
     private void Update()
     {
@@ -33,7 +34,7 @@ public class _PlayerMovement : MonoBehaviour
         {
             Dash();
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             state = PlayerState.Attacking;
         }
@@ -52,23 +53,49 @@ public class _PlayerMovement : MonoBehaviour
 
     private void Look()
     {
-        if (_input == Vector3.zero)
+        if (state != PlayerState.Attacking)
         {
-            state = PlayerState.Idle;
-            return;
-        }else
-        {
-            state = PlayerState.Running;
-        }
+            if (_input == Vector3.zero)
+            {
+                state = PlayerState.Idle;
+                return;
+            }
+            else
+            {
+                state = PlayerState.Running;
+                
+            }
 
-        var rot = Quaternion.LookRotation(_input.ToIso(), Vector3.up);
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, rot, _turnSpeed * Time.deltaTime);
-        
+            if (!target)
+            {
+                float targetAngle = Mathf.Atan2(_input.x, _input.z) * Mathf.Rad2Deg;
+                Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
+            }
+
+        }
+        else
+        {
+            _anim.CrossFade("Attack", 0);
+            Invoke("ResetIdle", 1);
+            
+        }    
     }
 
     private void Move()
     {
-        _rb.MovePosition(transform.position + transform.forward * _input.normalized.magnitude * _speed * Time.deltaTime);  
+        if (!target)
+        {
+            
+            if (state != PlayerState.Attacking)
+                _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
+        }
+        else
+        {
+            if (state != PlayerState.Attacking)
+                _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
+        }
+          
     }
     void Dash()
     {
@@ -89,18 +116,25 @@ public class _PlayerMovement : MonoBehaviour
         switch (state)
         {
             case PlayerState.Idle:
-                _anim.CrossFade("Idle", 0.1f);
+                //_anim.CrossFade("Idle", 0.1f);
+                //_anim.CrossFade("Running_A", 0f);
                 break;
             case PlayerState.Running:
-                _anim.CrossFade("Running_A", 0f);
+                
+                //.CrossFade("Running_A", 0f);
                 break;
             case PlayerState.Dashing:
-                _anim.CrossFade("Dash", 0);
+                //_anim.CrossFade("Dash", 0);
                 break;
             case PlayerState.Attacking:
-                _anim.CrossFade("Attack", 0);
+                //_anim.CrossFade("Attack", 0);
                 break;
         }
+    }
+
+    private void ResetIdle()
+    {
+        state = PlayerState.Idle;
     }
 }
 
