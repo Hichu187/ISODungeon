@@ -39,8 +39,10 @@ public class _PlayerState : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            state = PlayerState.Attacking;
+            _anim.CrossFade("Attack", 0, 1);
+            Invoke("ResetIdle", 1);
         }
+        
     }
 
     private void FixedUpdate()
@@ -51,44 +53,30 @@ public class _PlayerState : MonoBehaviour
     private void GatherInput()
     {
         _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-        
+
+        if (_input == Vector3.zero)
+        {
+            state = PlayerState.Idle;
+            return;
+        }
+        else
+        {
+            state = PlayerState.Running;
+        }
     }
 
     private void Look()
     {
-        
-        if (state != PlayerState.Attacking)
+        if (!target)
         {
-            if (_input == Vector3.zero)
-            {
-                state = PlayerState.Idle; 
-                return;
-            }
-            else
-            {
-                state = PlayerState.Running;
-                
-            }
-
-            if (!target)
-            {
-                float targetAngle = Mathf.Atan2(_input.x, _input.z) * Mathf.Rad2Deg;
-                Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
-            }
-            else
-            {
-                transform.LookAt(target.transform);
-
-            }
-
+            float targetAngle = Mathf.Atan2(_input.x, _input.z) * Mathf.Rad2Deg;
+            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
         }
         else
         {
-            _anim.CrossFade("Attack", 0);
-            Invoke("ResetIdle", 1);
-            
-        }    
+            transform.LookAt(target.transform);
+        }  
     }
 
     private void Move()
@@ -98,13 +86,14 @@ public class _PlayerState : MonoBehaviour
             if (!target)
             {
                 _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
-                _anim.CrossFade("Running", 0.1f);
+                _anim.CrossFade("Running", 0f);
+                Debug.Log("b");
             }
             else
             {
                 _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
                 float distance = Vector3.Distance(transform.position, target.transform.position);
-                _anim.CrossFade("Target_Run", 0.1f);
+                _anim.CrossFade("Target_Run", 0f);
                 if (distance >= prePosX)
                 {
 
@@ -127,7 +116,12 @@ public class _PlayerState : MonoBehaviour
     {
         canDash = false;
         state = PlayerState.Dashing;
-        _rb.velocity = transform.forward * dashSpeed;
+        if(!target)
+            _rb.velocity = transform.forward * dashSpeed;
+        else
+        {
+            _rb.velocity = transform.position + _input.normalized * dashSpeed;
+        }
         Invoke("resetDash", dashCooldown);
     }
     void resetDash()
@@ -142,18 +136,20 @@ public class _PlayerState : MonoBehaviour
         switch (state)
         {
             case PlayerState.Idle:
-                _anim.CrossFade("Idle", 0.1f);
-                //_anim.CrossFade("Running_A", 0f);
+                if (!target)
+                {
+                    _anim.CrossFade("Idle", 0.1f);
+                } 
+                else 
+                    _anim.SetFloat("y", 0);
                 break;
-            case PlayerState.Running:
+            case PlayerState.Running:    
                 
-                //.CrossFade("Running_A", 0f);
                 break;
             case PlayerState.Dashing:
-                //_anim.CrossFade("Dash", 0);
                 break;
             case PlayerState.Attacking:
-                //_anim.CrossFade("Attack", 0);
+                
                 break;
         }
     }
