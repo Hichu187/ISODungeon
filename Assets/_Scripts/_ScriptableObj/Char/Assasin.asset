@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Class: 4
   baseDamage: 15
-  movementSpeed: 8
+  movementSpeed: 9
   HP: 100
   MP: 0
   EquippedWeapon: {fileID: 11400000, guid: 6afa0aeaf3c8f5c4e820858c91452219, type: 2}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class _PlayerState : MonoBehaviour
@@ -19,6 +20,8 @@ public class _PlayerState : MonoBehaviour
     [SerializeField] private float _turnSpeed = 360;
     private Vector3 _input;
     private int animationStateHash;
+    private float prePosX;
+    private Vector3 prevFw;
     private void Start()
     {
         _rb = this.GetComponent<Rigidbody>();
@@ -53,11 +56,12 @@ public class _PlayerState : MonoBehaviour
 
     private void Look()
     {
+        
         if (state != PlayerState.Attacking)
         {
             if (_input == Vector3.zero)
             {
-                state = PlayerState.Idle;
+                state = PlayerState.Idle; 
                 return;
             }
             else
@@ -72,6 +76,11 @@ public class _PlayerState : MonoBehaviour
                 Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, _turnSpeed * Time.deltaTime);
             }
+            else
+            {
+                transform.LookAt(target.transform);
+
+            }
 
         }
         else
@@ -84,17 +93,34 @@ public class _PlayerState : MonoBehaviour
 
     private void Move()
     {
-        if (!target)
+        if (state == PlayerState.Running)
         {
+            if (!target)
+            {
+                _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
+                _anim.CrossFade("Running", 0.1f);
+            }
+            else
+            {
+                _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
+                float distance = Vector3.Distance(transform.position, target.transform.position);
+                _anim.CrossFade("Target_Run", 0.1f);
+                if (distance >= prePosX)
+                {
+
+                    _anim.SetFloat("y", -1);
+                    _speed = this.GetComponent<CharacterData>().movementSpeed * 0.75f;
+                }
+                else
+                {
+                    _anim.SetFloat("y", 1);
+                    _speed = this.GetComponent<CharacterData>().movementSpeed;
+                }
+                prePosX = distance;
+
+            }
+        }
             
-            if (state != PlayerState.Attacking)
-                _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
-        }
-        else
-        {
-            if (state != PlayerState.Attacking)
-                _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
-        }
           
     }
     void Dash()
@@ -116,7 +142,7 @@ public class _PlayerState : MonoBehaviour
         switch (state)
         {
             case PlayerState.Idle:
-                //_anim.CrossFade("Idle", 0.1f);
+                _anim.CrossFade("Idle", 0.1f);
                 //_anim.CrossFade("Running_A", 0f);
                 break;
             case PlayerState.Running:
