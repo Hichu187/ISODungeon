@@ -58,6 +58,11 @@ public class _PlayerState : MonoBehaviour
     {
         _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
+
+    }
+
+    private void Look()
+    {
         if (_input == Vector3.zero)
         {
             state = PlayerState.Idle;
@@ -67,10 +72,6 @@ public class _PlayerState : MonoBehaviour
         {
             state = PlayerState.Running;
         }
-    }
-
-    private void Look()
-    {
         if (!target)
         {
             float targetAngle = Mathf.Atan2(_input.x, _input.z) * Mathf.Rad2Deg;
@@ -91,7 +92,6 @@ public class _PlayerState : MonoBehaviour
             {
                 _rb.MovePosition(transform.position + _input.normalized * _input.normalized.magnitude * _speed * Time.deltaTime);
                 _anim.CrossFade("Running", 0f);
-                Debug.Log("b");
             }
             else
             {
