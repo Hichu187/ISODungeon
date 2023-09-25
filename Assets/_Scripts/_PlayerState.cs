@@ -10,18 +10,24 @@ public class _PlayerState : MonoBehaviour
 
     public PlayerState state;
     public CharacterData data;
-    public GameObject target;
+    
+    [Header("====== MOVEMENT ======")]
     [SerializeField] private float _speed = 5;
-
+    private Vector3 _input;
+    private float prePosX;
     [Header("====== DASH ======")]
     [SerializeField] bool canDash = true;
     [SerializeField] private float dashCooldown = 0.1f;
     [SerializeField] private float dashSpeed = 20f;
     [SerializeField] private float _turnSpeed = 360;
-    private Vector3 _input;
-    private int animationStateHash;
-    private float prePosX;
-    private Vector3 prevFw;
+    [Header("====== COMBAT ======")]
+    public GameObject target;
+    private float nextFireTime = 0f;
+    private static int noOfClicks = 0;
+    private float lastClickedTime =0;
+    private float maxComboDelay = 1;
+
+
     private void Start()
     {
         _rb = this.GetComponent<Rigidbody>();
@@ -38,15 +44,15 @@ public class _PlayerState : MonoBehaviour
         {
             Dash();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Time.time > 0)
         {
-            if (!data.LeftHandEquippedWeapon)
+            if (Input.GetMouseButton(0))
             {
-                _anim.CrossFade("1HandAttack", 0,1);
-                CheckClass();
+                Attack();
             }
         }
-        
+
+        ResetAttack();
     }
 
     private void FixedUpdate()
@@ -54,6 +60,7 @@ public class _PlayerState : MonoBehaviour
         Move();
         ChangeAnimation();
     }
+    #region Moving
     private void GatherInput()
     {
         _input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -116,6 +123,8 @@ public class _PlayerState : MonoBehaviour
             
           
     }
+    #endregion
+    #region Dash
     void Dash()
     {
         canDash = false;
@@ -134,33 +143,86 @@ public class _PlayerState : MonoBehaviour
         canDash = true;
         state = PlayerState.Idle;
     }
+    #endregion
 
+    #region COMBAT
+    void Attack()
+    {
+        lastClickedTime = Time.time;
+        noOfClicks++; 
+        CheckClass();
+        noOfClicks = Mathf.Clamp(noOfClicks, 0, 5);
+        if (data.LeftHandEquippedWeapon)
+        {
+            if(data.LeftHandEquippedWeapon.weapon == WeaponType.Shield || data.LeftHandEquippedWeapon.weapon == WeaponType.Catalists)
+            {
+                if (noOfClicks == 1)
+                    _anim.CrossFade("One_HandAttack_1", 0, 1);
+
+                if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_1"))
+                    _anim.CrossFade("One_HandAttack_2", 0, 1);
+
+                if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_2"))
+                    _anim.CrossFade("One_HandAttack_3", 0, 1);
+
+                if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_3"))
+                    _anim.CrossFade("One_HandAttack_4", 0, 1);
+                if (noOfClicks >= 5 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_4"))
+                    noOfClicks = 0;
+            }else if(data.LeftHandEquippedWeapon.weapon == WeaponType.Axes || data.LeftHandEquippedWeapon.weapon == WeaponType.Knife || data.LeftHandEquippedWeapon.weapon == WeaponType.Swords)
+            {
+                if (noOfClicks == 1)
+                    _anim.CrossFade("DualAttack_1", 0, 1);
+
+                if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_1"))
+                    _anim.CrossFade("DualAttack_2", 0, 1);
+
+                if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_2"))
+                    _anim.CrossFade("DualAttack_3", 0, 1);
+
+                if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_3"))
+                    noOfClicks = 0;
+            }
+
+
+        }
+        else
+        {
+            if (noOfClicks == 1)
+                _anim.CrossFade("2_HandAttack_1", 0, 1);
+
+            if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("2_HandAttack_1"))
+                _anim.CrossFade("2_HandAttack_2", 0, 1);
+
+            if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("2_HandAttack_2"))
+                _anim.CrossFade("2_HandAttack_3", 0, 1);
+
+            if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("2_HandAttack_3"))
+                _anim.CrossFade("2_HandAttack_4", 0, 1);
+            if (noOfClicks >= 5 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("2_HandAttack_4"))
+                noOfClicks = 0;
+        }
+        
+    }
+
+    void ResetAttack()
+    {
+        if (Time.time - lastClickedTime > maxComboDelay)
+        {
+            noOfClicks = 0;
+        }
+
+    }
+    #endregion
     void ChangeAnimation()
     {
         switch (state)
         {
             case PlayerState.Idle:
-                if (!target)
-                {
-                    _anim.CrossFade("Idle", 0.1f);
-                } 
-                else 
-                    _anim.SetFloat("y", 0);
-                break;
-            case PlayerState.Running:    
-                
-                break;
-            case PlayerState.Dashing:
-                break;
-            case PlayerState.Attacking:
-                
+                _anim.CrossFade("Idle", 0.1f);
+                _anim.SetFloat("y", 0);
                 break;
         }
-    }
-
-    private void ResetIdle()
-    {
-        state = PlayerState.Idle;
     }
 
     void CheckClass()
@@ -168,10 +230,17 @@ public class _PlayerState : MonoBehaviour
         switch (data.Class)
         {
             case PlayerClass.Knight:
-                _anim.SetFloat("1Hand", 0);
                 break;
             case PlayerClass.Berserker:
-                _anim.SetFloat("1Hand", 0.25f);
+                break;
+            case PlayerClass.Assasin:
+                _anim.SetFloat("1Hand", 0f);
+                break;
+            case PlayerClass.Rogue:
+                _anim.SetFloat("1Hand", 0.5f);
+                break;
+            case PlayerClass.Mage:
+                _anim.SetFloat("1Hand", 1f);
                 break;
         }
     }

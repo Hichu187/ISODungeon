@@ -15,7 +15,7 @@ public class CharacterData : MonoBehaviour
     [SerializeField] internal Weapon LeftHandEquippedWeapon;
     private void Awake()
     {
-        SetData();
+        //SetData();
     }
     private void Start()
     {
@@ -30,6 +30,6 @@ public class CharacterData : MonoBehaviour
         magicPoint = data.magicPoint;
         Class = data.Class;
         RightHandEquippedWeapon = data.RightHandWeapon;
-        RightHandEquippedWeapon = data.LeftHandWeapon;
+        LeftHandEquippedWeapon = data.LeftHandWeapon;
     }
 }

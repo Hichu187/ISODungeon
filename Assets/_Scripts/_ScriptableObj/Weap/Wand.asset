@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Wand
   m_EditorClassIdentifier: 
   model: {fileID: 0}
+  rWeapon: 0
+  lWeapon: 5
   Name: 
   Damage: 0
   AttackRange: 0

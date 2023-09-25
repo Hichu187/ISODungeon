@@ -3,7 +3,7 @@ using UnityEngine;
 public class Weapon : ScriptableObject
 {
     [SerializeField] private GameObject model;
-    public RightHandWeaponType rWeapon;
+    public WeaponType weapon;
     public string Name;
     public int Damage;
     public int AttackRange;

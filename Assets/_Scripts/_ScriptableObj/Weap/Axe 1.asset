@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Axe 1
   m_EditorClassIdentifier: 
   model: {fileID: 0}
-  rWeapon: 5
+  weapon: 6
   Name: 
   Damage: 0
   AttackRange: 0
-  IsOneHanded: 1
+  IsOneHanded: 0
   NormalAttackName: 
   Skill1Name: 
   Skill2Name: 
