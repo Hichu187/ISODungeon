@@ -6,13 +6,13 @@ using UnityEngine;
 public class CharacterData : MonoBehaviour
 {
     public Character data;
-
+    [SerializeField] internal PlayerClass Class;
+    [SerializeField] internal int healthPoint;
+    [SerializeField] internal int magicPoint;
     [SerializeField] internal int baseDamage;
     [SerializeField] internal int movementSpeed;
-    [SerializeField] internal int HP;
-    [SerializeField] internal int MP;
-    [SerializeField] internal PlayerClass Class;
-    [SerializeField] internal Weapon EquippedWeapon;
+    [SerializeField] internal Weapon RightHandEquippedWeapon;
+    [SerializeField] internal Weapon LeftHandEquippedWeapon;
     private void Awake()
     {
         SetData();
@@ -26,9 +26,10 @@ public class CharacterData : MonoBehaviour
     {
         baseDamage = data.baseDamage;
         movementSpeed = data.movementSpeed;
-        HP = data.HP;
-        MP = data.MP;
+        healthPoint = data.healthPoint;
+        magicPoint = data.magicPoint;
         Class = data.Class;
-        EquippedWeapon = data.EquippedWeapon;
+        RightHandEquippedWeapon = data.RightHandWeapon;
+        RightHandEquippedWeapon = data.LeftHandWeapon;
     }
 }

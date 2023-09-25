@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Axe 1
   m_EditorClassIdentifier: 
   model: {fileID: 0}
+  rWeapon: 5
   Name: 
   Damage: 0
   AttackRange: 0

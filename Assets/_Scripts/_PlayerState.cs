@@ -9,7 +9,7 @@ public class _PlayerState : MonoBehaviour
     private Animator _anim;
 
     public PlayerState state;
-
+    public CharacterData data;
     public GameObject target;
     [SerializeField] private float _speed = 5;
 
@@ -26,7 +26,8 @@ public class _PlayerState : MonoBehaviour
     {
         _rb = this.GetComponent<Rigidbody>();
         _anim = this.GetComponent<Animator>();
-        _speed = this.GetComponent<CharacterData>().movementSpeed;
+        data = this.GetComponent<CharacterData>();
+        _speed = data.movementSpeed;
     }
     private void Update()
     {
@@ -39,8 +40,11 @@ public class _PlayerState : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _anim.CrossFade("Attack", 0, 1);
-            Invoke("ResetIdle", 1);
+            if (!data.LeftHandEquippedWeapon)
+            {
+                _anim.CrossFade("1HandAttack", 0,1);
+                CheckClass();
+            }
         }
         
     }
@@ -157,6 +161,19 @@ public class _PlayerState : MonoBehaviour
     private void ResetIdle()
     {
         state = PlayerState.Idle;
+    }
+
+    void CheckClass()
+    {
+        switch (data.Class)
+        {
+            case PlayerClass.Knight:
+                _anim.SetFloat("1Hand", 0);
+                break;
+            case PlayerClass.Berserker:
+                _anim.SetFloat("1Hand", 0.25f);
+                break;
+        }
     }
 }
 

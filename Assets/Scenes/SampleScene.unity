@@ -1258,6 +1258,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Assasin
       objectReference: {fileID: 0}
+    - target: {fileID: 3795861576893456592, guid: 3c6c42e7f11ca414caa0950a5dca43ea, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4604450487578245738, guid: 3c6c42e7f11ca414caa0950a5dca43ea, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -3110,6 +3114,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1605476301, guid: 0205614e61e08c846870f735dd625c52, type: 3}
+      propertyPath: RightHandEquippedWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 29a6fc6454200aa40a919b177c3d0f28, type: 2}
     - target: {fileID: 5591759809201690, guid: 0205614e61e08c846870f735dd625c52, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
@@ -4604,7 +4612,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 585584851}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5000001
   m_Speed: 1
@@ -4626,7 +4634,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 585584851}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25160974c520fd94fa7d15e08de068ae, type: 3}
   m_Name: 
@@ -6537,6 +6545,10 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1441960537, guid: 4fcdffcbb7333dd4298bd1ae5145c5ea, type: 3}
+      propertyPath: RightHandEquippedWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6eab281d1ce00a340a2206737295c9bd, type: 2}
     - target: {fileID: 99381426655419549, guid: 4fcdffcbb7333dd4298bd1ae5145c5ea, type: 3}
       propertyPath: m_RootOrder
       value: 5
