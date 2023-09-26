@@ -149,44 +149,10 @@ public class _PlayerState : MonoBehaviour
     void Attack()
     {
         lastClickedTime = Time.time;
-        noOfClicks++; 
+        noOfClicks++;
         CheckClass();
         noOfClicks = Mathf.Clamp(noOfClicks, 0, 5);
-        if (data.LeftHandEquippedWeapon)
-        {
-            if(data.LeftHandEquippedWeapon.weapon == WeaponType.Shield || data.LeftHandEquippedWeapon.weapon == WeaponType.Catalists || data.LeftHandEquippedWeapon.weapon == WeaponType.Empty)
-            {
-                if (noOfClicks == 1)
-                    _anim.CrossFade("One_HandAttack_1", 0, 1);
-
-                if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_1"))
-                    _anim.CrossFade("One_HandAttack_2", 0, 1);
-
-                if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_2"))
-                    _anim.CrossFade("One_HandAttack_3", 0, 1);
-
-                if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_3"))
-                    _anim.CrossFade("One_HandAttack_4", 0, 1);
-                if (noOfClicks >= 5 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_4"))
-                    noOfClicks = 0;
-            }else if(data.LeftHandEquippedWeapon.weapon == WeaponType.Axes || data.LeftHandEquippedWeapon.weapon == WeaponType.Knife || data.LeftHandEquippedWeapon.weapon == WeaponType.Swords)
-            {
-                if (noOfClicks == 1)
-                    _anim.CrossFade("DualAttack_1", 0, 1);
-
-                if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_1"))
-                    _anim.CrossFade("DualAttack_2", 0, 1);
-
-                if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_2"))
-                    _anim.CrossFade("DualAttack_3", 0, 1);
-
-                if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_3"))
-                    noOfClicks = 0;
-            }
-
-
-        }
-        else
+        if (data.RightHandEquippedWeapon.weapon == WeaponType.Claymores || data.RightHandEquippedWeapon.weapon == WeaponType.Staff || data.RightHandEquippedWeapon.weapon == WeaponType.BigAxes || data.RightHandEquippedWeapon.weapon == WeaponType.BigCrossbows)
         {
             if (noOfClicks == 1)
                 _anim.CrossFade("2_HandAttack_1", 0, 1);
@@ -202,9 +168,61 @@ public class _PlayerState : MonoBehaviour
             if (noOfClicks >= 5 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("2_HandAttack_4"))
                 noOfClicks = 0;
         }
-        
-    }
+        else
+        {
 
+            if (data.LeftHandEquippedWeapon == null)
+            {
+                if (noOfClicks == 1)
+                    _anim.CrossFade("One_HandAttack_1", 0, 1);
+
+                if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_1"))
+                    _anim.CrossFade("One_HandAttack_2", 0, 1);
+
+                if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_2"))
+                    _anim.CrossFade("One_HandAttack_3", 0, 1);
+
+                if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_3"))
+                    _anim.CrossFade("One_HandAttack_4", 0, 1);
+                if (noOfClicks >= 5 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_4"))
+                    noOfClicks = 0;
+            }
+            else
+            {
+                if (data.LeftHandEquippedWeapon.weapon == WeaponType.Shield || data.LeftHandEquippedWeapon.weapon == WeaponType.Catalists)
+                {
+                    if (noOfClicks == 1)
+                        _anim.CrossFade("One_HandAttack_1", 0, 1);
+
+                    if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_1"))
+                        _anim.CrossFade("One_HandAttack_2", 0, 1);
+
+                    if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_2"))
+                        _anim.CrossFade("One_HandAttack_3", 0, 1);
+
+                    if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_3"))
+                        _anim.CrossFade("One_HandAttack_4", 0, 1);
+                    if (noOfClicks >= 5 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("One_HandAttack_4"))
+                        noOfClicks = 0;
+                }
+                else if (data.LeftHandEquippedWeapon.weapon == WeaponType.Axes || data.LeftHandEquippedWeapon.weapon == WeaponType.Knife || data.LeftHandEquippedWeapon.weapon == WeaponType.Swords)
+                {
+                    if (noOfClicks == 1)
+                        _anim.CrossFade("DualAttack_1", 0, 1);
+
+                    if (noOfClicks >= 2 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_1"))
+                        _anim.CrossFade("DualAttack_2", 0, 1);
+
+                    if (noOfClicks >= 3 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_2"))
+                        _anim.CrossFade("DualAttack_3", 0, 1);
+
+                    if (noOfClicks >= 4 && _anim.GetCurrentAnimatorStateInfo(1).normalizedTime > 0.7f && _anim.GetCurrentAnimatorStateInfo(1).IsName("DualAttack_3"))
+                        noOfClicks = 0;
+                }
+            }
+        }
+
+    }
     void ResetAttack()
     {
         if (Time.time - lastClickedTime > maxComboDelay)

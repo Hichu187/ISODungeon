@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Sword 1
   m_EditorClassIdentifier: 
   model: {fileID: 0}
+  weapon: 4
   Name: 
   Damage: 0
   AttackRange: 0

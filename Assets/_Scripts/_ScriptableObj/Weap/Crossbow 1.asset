@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Crossbow 1
   m_EditorClassIdentifier: 
   model: {fileID: 0}
-  rWeapon: 6
+  weapon: 8
   Name: 
   Damage: 0
   AttackRange: 0

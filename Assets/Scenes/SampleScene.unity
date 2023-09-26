@@ -3129,7 +3129,7 @@ PrefabInstance:
     - target: {fileID: 1605476301, guid: 0205614e61e08c846870f735dd625c52, type: 3}
       propertyPath: RightHandEquippedWeapon
       value: 
-      objectReference: {fileID: 11400000, guid: 29a6fc6454200aa40a919b177c3d0f28, type: 2}
+      objectReference: {fileID: 11400000, guid: b80c18e607b636744b25c3bf2bdb8a8e, type: 2}
     - target: {fileID: 5591759809201690, guid: 0205614e61e08c846870f735dd625c52, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
@@ -3692,7 +3692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7810989469537680787, guid: 0205614e61e08c846870f735dd625c52, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8108540200254170676, guid: 0205614e61e08c846870f735dd625c52, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4173,6 +4173,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1281268182, guid: f6275c3e95f83604caf8249eaaa086b3, type: 3}
+      propertyPath: LeftHandEquippedWeapon
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6067840774485836036, guid: f6275c3e95f83604caf8249eaaa086b3, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -4223,7 +4227,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6881110614919109566, guid: f6275c3e95f83604caf8249eaaa086b3, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
