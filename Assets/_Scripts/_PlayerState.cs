@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class _PlayerState : MonoBehaviour
 {
+    public static _PlayerState instance;
+    private void Awake()
+    {
+        instance = this;
+    }
     private Rigidbody _rb;
     private Animator _anim;
 

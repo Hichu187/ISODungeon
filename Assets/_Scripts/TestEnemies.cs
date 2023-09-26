@@ -12,10 +12,15 @@ public class TestEnemies : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
          
     }
-
-    // Update is called once per frame
     void Update()
     {
         agent.SetDestination(target.transform.position);
+
+
+    }
+
+    private void OnMouseDown()
+    {
+        _PlayerState.instance.target = this.gameObject;
     }
 }

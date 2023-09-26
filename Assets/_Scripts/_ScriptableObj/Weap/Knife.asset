@@ -16,7 +16,7 @@ MonoBehaviour:
   weapon: 5
   Name: 
   Damage: 0
-  AttackRange: 0
+  AttackRange: 3
   IsOneHanded: 0
   NormalAttackName: 
   Skill1Name: 

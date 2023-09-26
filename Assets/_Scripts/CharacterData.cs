@@ -13,9 +13,13 @@ public class CharacterData : MonoBehaviour
     [SerializeField] internal int movementSpeed;
     [SerializeField] internal Weapon RightHandEquippedWeapon;
     [SerializeField] internal Weapon LeftHandEquippedWeapon;
+
+    [Header("INGAME OBJ")]
+    [SerializeField] private GameObject atkRange;
     private void Awake()
     {
-        //SetData();
+        float range = RightHandEquippedWeapon.AttackRange;
+        atkRange.transform.localScale = new Vector3(range, range, range);
     }
     private void Start()
     {
