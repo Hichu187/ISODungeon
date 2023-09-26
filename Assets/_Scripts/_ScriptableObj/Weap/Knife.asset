@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: 
   model: {fileID: 0}
+  weapon: 7
   Name: 
   Damage: 0
   AttackRange: 0

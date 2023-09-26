@@ -154,7 +154,7 @@ public class _PlayerState : MonoBehaviour
         noOfClicks = Mathf.Clamp(noOfClicks, 0, 5);
         if (data.LeftHandEquippedWeapon)
         {
-            if(data.LeftHandEquippedWeapon.weapon == WeaponType.Shield || data.LeftHandEquippedWeapon.weapon == WeaponType.Catalists)
+            if(data.LeftHandEquippedWeapon.weapon == WeaponType.Shield || data.LeftHandEquippedWeapon.weapon == WeaponType.Catalists || data.LeftHandEquippedWeapon.weapon == WeaponType.Empty)
             {
                 if (noOfClicks == 1)
                     _anim.CrossFade("One_HandAttack_1", 0, 1);
