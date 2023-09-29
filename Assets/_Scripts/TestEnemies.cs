@@ -19,8 +19,4 @@ public class TestEnemies : MonoBehaviour
 
     }
 
-    private void OnMouseDown()
-    {
-        _PlayerState.instance.target = this.gameObject;
-    }
 }
