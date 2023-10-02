@@ -86,18 +86,19 @@ public class EnemyAI : MonoBehaviour
     #region CHASING PLAYER
     void Chasing()
     {
-        if (_fieldOfView.canSeePlayer && !isAttacking)
+        if (_fieldOfView.canSeePlayer )
         {
             Vector3 playerPos = _fieldOfView.playerRef.transform.position;
             if (Vector3.Distance(transform.position, playerPos) > _data.data.atkRange)
             {
-                _agent.SetDestination(playerPos);
                 state = EnemyState.Chasing;
+                _agent.SetDestination(playerPos);
+                
             } 
             else
             {
                 _agent.ResetPath();
-                Invoke("Attack", 1f);
+                Invoke("Attack", 0f);
             }
         }
     }
@@ -118,14 +119,13 @@ public class EnemyAI : MonoBehaviour
 
     private IEnumerator AttackCooldown()
     {
-        isAttacking = true;
+        transform.LookAt(_fieldOfView.playerRef.transform);
         state = EnemyState.Attacking;
         yield return new WaitForSeconds(0.75f);
-        canAtk = false;
-        isAttacking = false;
+        canAtk = false;      
         yield return new WaitForSeconds(atkCd);
         canAtk = true;
-        
+
     }
     #endregion
     #region ANIMATION
