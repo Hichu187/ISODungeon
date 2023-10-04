@@ -16,7 +16,7 @@ MonoBehaviour:
   weapon: 1
   Name: Claymore 05
   Damage: 0
-  AttackRange: 0
+  AttackRange: 3
   IsOneHanded: 0
   NormalAttackName: 
   Skill1Name: 

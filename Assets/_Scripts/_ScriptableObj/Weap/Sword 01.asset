@@ -16,7 +16,7 @@ MonoBehaviour:
   weapon: 4
   Name: Sword 01
   Damage: 0
-  AttackRange: 0
+  AttackRange: 3
   IsOneHanded: 0
   NormalAttackName: 
   Skill1Name: 

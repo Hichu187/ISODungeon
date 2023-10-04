@@ -40,7 +40,7 @@ public class _PlayerState : MonoBehaviour
         _anim = this.GetComponent<Animator>();
         _agent = this.GetComponent<NavMeshAgent>();
         data = this.GetComponent<CharacterData>();
-        //
+        
         isDashing = false;
         _agent.speed = data.movementSpeed;
         CheckClass();
@@ -182,7 +182,6 @@ public class _PlayerState : MonoBehaviour
                 break;
         }
     }
-
     void CheckClass()
     {
         switch (data.Class)
